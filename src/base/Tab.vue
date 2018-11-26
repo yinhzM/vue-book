@@ -30,7 +30,7 @@
 </script>
 <style scoped lang="less">
   .footer{
-    position: fixed;left:0;bottom: 0;width: 100%;height: 50px;display: flex;border-top: 1px solid #ccc;
+    position: fixed;left:0;bottom: 0;width: 100%;height: 50px;display: flex;border-top: 1px solid #ccc;background: #ffffff;
     a{
       display: flex;flex-direction: column;flex:1;align-items: center;justify-content: center;text-decoration: none;
       color: #2c3e50;

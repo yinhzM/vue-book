@@ -1,6 +1,17 @@
 let http = require('http');
 let path = require('path');
 let url = require('url');
+let fs = require('fs');
+
+function read (cb) {
+  fs.readFile('./book.json','utf-8',function (err,data) {
+    if(err || data.length == 0) {
+      cb([]);
+    } else {
+      cb(JSON.parse(data));
+    }
+  });
+}
 
 let silder = require('./silders.js');
 http.createServer((req,res) => {
@@ -17,6 +28,14 @@ http.createServer((req,res) => {
   var pathname = url.parse(req.url).pathname;
   if(pathname === '/getSilders'){
     res.end(JSON.stringify(silder));
+  }
+
+  if(pathname === '/hot') {
+    read(function (books) {
+      let hot = books.reverse().slice(0,6);
+      res.end(JSON.stringify(hot));
+    });
+    return;
   }
 }).listen(3000);
 console.log('Server runing at port: 3000')

@@ -24,5 +24,4 @@
   input,button{
     -webkit-appearance: none;
   }
-
 </style>

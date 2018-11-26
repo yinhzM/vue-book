@@ -19,4 +19,12 @@ export let getBooks = () => {
 export let removeBook = id => {
   return axios.delete(`/book?id=${id}`);
 }
+//详情
+export let findBook = id => {
+  return axios.get(`/book?id=${id}`);
+}
+//修改
+export let updateBook = (id,data) =>{
+  return axios.put(`/book?id=${id}`,data);
+}
 

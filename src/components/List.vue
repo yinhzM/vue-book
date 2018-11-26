@@ -1,17 +1,17 @@
 <template>
   <div class="list">
-    <MHeader :back="true">列表页</MHeader>
+    <MHeader :back="false">列表页</MHeader>
     <div class="container">
       <ul>
-        <li v-for="book in books">
+        <router-link v-for="(book,key) in books" :to="{name:'detail',params:{bid:book.bookId}}" :key="key" tag="li">
           <img :src="book.bookCover" alt="">
           <div>
             <h4>{{book.bookName}}</h4>
             <p>{{book.bookInfo}}</p>
             <b>{{book.bookPrice}}</b>
-            <button @click="remove(book.bookId)">删除</button>
+            <button @click.stop="remove(book.bookId)">删除</button>
           </div>
-        </li>
+        </router-link>
       </ul>
     </div>
   </div>

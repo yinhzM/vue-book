@@ -16,7 +16,10 @@
         swiperOption: {
           pagination: {
             el: '.swiper-pagination'
-          }
+          },
+          autoplay: {
+            disableOnInteraction: false,
+          },
         }
       }
     },

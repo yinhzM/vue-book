@@ -13,6 +13,10 @@ function read (cb) {
   });
 }
 
+function write (data, cb) {
+  fs.writeFile('./book.json',JSON.stringify(data),cb);
+}
+
 let silder = require('./silders.js');
 http.createServer((req,res) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');        // * 这个表示任意域名都可以访问，这样写不能携带cookie了。 || 'http://localhost:5080'
@@ -22,10 +26,10 @@ http.createServer((req,res) => {
   res.setHeader('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');  //设置方法
 
   if (req.method == 'OPTIONS') {
-    return res.send();   //在正常的请求之前，会发送一个验证，是否可以请求。
+    return res.end();   //在正常的请求之前，会发送一个验证，是否可以请求。
   }
   res.setHeader('Content-Type',"application/json");
-  var pathname = url.parse(req.url).pathname;
+  var {pathname, query} = url.parse(req.url, true); //true把query转成对象
   if(pathname === '/getSilders'){
     res.end(JSON.stringify(silder));
   }
@@ -36,6 +40,37 @@ http.createServer((req,res) => {
       res.end(JSON.stringify(hot));
     });
     return;
+  }
+
+  if(pathname === '/book'){
+
+    let id = parseInt(query.id);
+    switch (req.method) {
+      case 'GET':
+        if(id){
+
+        } else {
+          read(function (books) {
+            res.setHeader('Content-Type',"application/json;charset=utf8");
+            res.end(JSON.stringify(books.reverse()));
+          });
+          return;
+        }
+        break;
+      case 'POST':
+        break;
+      case 'PUT':
+        break;
+      case 'DELETE':
+        read(function (books) {
+          books = books.filter(item => item.bookId!==id);
+          write(books, function () {
+            res.end(JSON.stringify({}))
+          });
+        });
+        return;
+        break;
+    }
   }
 }).listen(3000);
 console.log('Server runing at port: 3000')
